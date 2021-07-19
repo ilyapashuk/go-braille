@@ -1,5 +1,6 @@
 package main
-import "braille"
+import "github.com/ilyapashuk/go-braille"
+import "github.com/ilyapashuk/go-braille/translation"
 import "os"
 import "strings"
 
@@ -18,7 +19,7 @@ fatal(err)
 ts := string(tb)
 ts = strings.ReplaceAll(ts, "\r", "")
 td := strings.Split(ts, "\n")
-rl,err := braille.ParseRuleList(td)
+rl,err := translation.ParseRuleList(td)
 fatal(err)
 bt := rl.ToBackTable()
 infile := os.Args[2]

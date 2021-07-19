@@ -1,6 +1,6 @@
 package main
 
-import "braille"
+import "github.com/ilyapashuk/go-braille"
 import "fmt"
 import "os"
 func main() {

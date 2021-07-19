@@ -9,7 +9,7 @@ package translation
 import "strings"
 import "fmt"
 import "errors"
-import . "braille"
+import . "github.com/ilyapashuk/go-braille"
 
 type UnmappableCharacterError struct {
 Rune rune

@@ -1,6 +1,7 @@
 package main
 import "os"
-import "braille/translation"
+import "github.com/ilyapashuk/go-braille/translation"
+
 import "strings"
 
 func fatal(err error) {
