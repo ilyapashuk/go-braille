@@ -1,0 +1,14 @@
+this is a very simple table driven braille translator and backtranslator
+
+table syntax:
+lines beginning with hash sign (#) are ignored as comments
+the first word of each line is ignored
+the second word should contain a list of chars
+the third word should contain braille dots description
+example:
+uplow Bb 12
+means that letter B in both cases is represented as dots 1 and 2
+multiple dots, like 6-12, are not supported.
+words in line should be delimited by spaces, tabs are not supported.
+
+such syntax makes this tables partially compatible with liblouis tables, but backslash escaping is not supported.

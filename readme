@@ -1,0 +1,5 @@
+This library provides some basic types to work with electronic braille.
+
+Brf (braille ascii) and braille unicode can be read and written.
+
+Very simple translator is available in translation subdirectory
