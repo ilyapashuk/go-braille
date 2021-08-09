@@ -26,11 +26,29 @@ return fmt.Sprintf("mapping for dots %v is missing in the table", c.Dots)
 }
 
 type TranslationRule struct {
-Rune rune
+Runes []rune
 Dots BrailleField
+Code string // the first word of the line, is ignored by translator but may be used by third party code
 }
+
 type RuleList []TranslationRule
 // rule list format is simmeler with liblouis table format, but much more simple and don't supports any backslash escaping, so not compatible with it
+
+func ParseRule(l string) (TranslationRule,error) {
+w := strings.Split(l, " ")
+if len(w) < 3 {
+return TranslationRule{},errors.New("invalid rule format")
+}
+code := w[0]
+charlist := []rune(w[1])
+dots := w[2]
+f,err := FieldFromString(dots)
+if err != nil {
+return TranslationRule{},err
+}
+return TranslationRule{Code:code,Dots:f,Runes:charlist},nil
+}
+
 func ParseRuleList(td []string) (RuleList, error) {
 var res RuleList
 for i,l := range td {
@@ -38,19 +56,11 @@ if l == "" || strings.HasPrefix(l, "#") {
 // skip it as an comment
 continue
 }
-w := strings.Split(l, " ")
-if len(w) < 3 {
-return res,InTextError{i, errors.New("invalid rule format")}
-}
-charlist := w[1]
-dots := w[2]
-f,err := FieldFromString(dots)
+rs,err := ParseRule(l)
 if err != nil {
-return res,InTextError{i, err}
+return res,InTextError{i,err}
 }
-for _,char := range charlist {
-res = append(res, TranslationRule{Dots:f,Rune:char})
-}
+res = append(res,rs)
 }
 return res,nil
 }
@@ -62,7 +72,9 @@ res[r] = b
 }
 }
 for _,v := range c {
-Add(v.Rune, v.Dots)
+for _,r := range v.Runes {
+Add(r,v.Dots)
+}
 }
 return res
 }
@@ -74,7 +86,7 @@ res[f] = r
 }
 }
 for _,v := range c {
-Add(v.Dots, v.Rune)
+Add(v.Dots, v.Runes[0])
 }
 return res
 }
